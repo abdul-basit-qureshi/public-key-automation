@@ -1,0 +1,35 @@
+name: PULL and build on core-tr server whenever PUSH occurs
+on:
+  push:
+    branches:
+      main
+
+jobs:
+  pull_and_run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set-up SSH
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.SSH_PRIVATE_KEY_VM }}" > ~/.ssh/id_ed25519
+        chmod 600 ~/.ssh/id_ed25519
+        ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+    - name: Pull and Run latest code on core-tr server
+      run: |
+        ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          cd /root/practice/repositories/public-key-automation
+          git pull https://${{ secrets.GIT_USER }}:${{ secrets.GIT_PAT }}@github.com/${{ secrets.GIT_USER }}/public-key-automation.git
+          cd keys_automation/
+          go mod init keys_automation
+          go build keys_automation.go
+          cp /root/practice/repositories/public-key-automation/.github/workflows/key_automation_pull.yml /root/practice/github-actions/         # For personal reference
+          cp /root/practice/repositories/public-key-automation/keys_automation/keys_automation.go /root/practice/practice_golang/               # For personal reference
+          cp /root/practice/repositories/public-key-automation/key-automation.service /etc/systemd/system/key-automation.service
+          ufw allow 1122/tcp
+          systemctl daemon-reload
+          systemctl start fs-service.service
+          curl -s http://localhost:1122
+          curl -s -X POST http://${{ secrets.SERVER_IP }}:1122/public
+        EOF

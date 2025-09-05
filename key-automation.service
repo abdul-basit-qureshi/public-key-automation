@@ -1,0 +1,13 @@
+[Unit]
+Description=Public Keys Automation Service
+After=network.target
+
+[Service]
+User=root
+ExecStart=/root/practice/repositories/public-key-automation/keys_automation/keys_automation
+StandardOutput=append:/var/log/key-automation.log
+StandardError=append:/var/log/key-automation_error.log
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
