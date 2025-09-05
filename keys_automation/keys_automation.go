@@ -18,15 +18,15 @@ var i, j = 0, 0
 func hello(c echo.Context) error {
 	i = i + 1
 	var currentTime = time.Now()
-	fmt.Printf("\n%d Received %s request from %s at %s\n\n", i, c.Request().Method, c.RealIP(), currentTime.Format(time.ANSIC))
-	return c.String(http.StatusOK, "Welcome to Automation Server\n")
+	fmt.Printf("\n%d Received %s request from %s at %s ⌚\n\n", i, c.Request().Method, c.RealIP(), currentTime.Format(time.ANSIC))
+	return c.String(http.StatusOK, "Welcome to Automation Server 😎\n")
 }
 
 // curl -X POST http://localhost:1122/key
 func key(c echo.Context) error {
 	j = j + 1
 	var currentTime = time.Now()
-	fmt.Printf("\n%d\nReceived %s request from %s at %s\n\n\n", j, c.Request().Method, c.RealIP(), currentTime.Format(time.ANSIC))
+	fmt.Printf("\n%d\nReceived %s request from %s at %s ⌚\n\n\n", j, c.Request().Method, c.RealIP(), currentTime.Format(time.ANSIC))
 	// fileContent, err := ReadFileData("/root/practice/repositories/freeswitch-golang-http-server/fs-go/dp.xml")
 	// if err != nil {
 	// 	fmt.Println("Error reading file: ", err)
@@ -35,7 +35,7 @@ func key(c echo.Context) error {
 
 	// fmt.Print("Response:\n", updatedXML)
 
-	return c.String(http.StatusOK, "Welcome to the Public Endpoint\n")
+	return c.String(http.StatusOK, "Welcome to the Public Endpoint 😈\n")
 }
 
 func main() {
