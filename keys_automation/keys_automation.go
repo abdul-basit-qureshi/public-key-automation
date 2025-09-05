@@ -26,8 +26,7 @@ func hello(c echo.Context) error {
 func key(c echo.Context) error {
 	j = j + 1
 	var currentTime = time.Now()
-	fmt.Printf("\n%d\nReceived %s request from %s at %s\n", j, c.Request().Method, c.RealIP(), currentTime.Format(time.ANSIC))
-	fmt.Print("Response: ", c.Response())
+	fmt.Printf("\n%d\nReceived %s request from %s at %s\n\n\n", j, c.Request().Method, c.RealIP(), currentTime.Format(time.ANSIC))
 	// fileContent, err := ReadFileData("/root/practice/repositories/freeswitch-golang-http-server/fs-go/dp.xml")
 	// if err != nil {
 	// 	fmt.Println("Error reading file: ", err)
